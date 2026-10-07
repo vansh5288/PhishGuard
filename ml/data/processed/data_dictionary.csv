@@ -1,0 +1,3 @@
+column_name,data_type,description,source,allowed_values
+url,string,"Whitespace-trimmed, structurally processable website URL.",malicious_phish.csv,Non-empty HTTP(S) URL string
+label,int64,"Integer target class: 0=Legitimate, 1=Phishing, 2=Suspicious.",Processed from source label column,0=Legitimate|1=Phishing|2=Defacement|3=Malware

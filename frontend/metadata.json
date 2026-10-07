@@ -1,0 +1,6 @@
+{
+  "name": "PhishGuard Threat Intelligence System",
+  "description": "AI-Powered Phishing URL Detection and Threat Intelligence Dashboard",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

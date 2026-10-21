@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0",
+  "registry": {
+    "title": "PhishGuard Brand Domain Registry",
+    "description": "Curated list of verified official domains for well-known brands, used for brand-identity mismatch detection.",
+    "generated_at": "2026-10-18T00:00:00Z",
+    "verification_method": "manual_curation",
+    "data_sources": [
+      "https://about.google/",
+      "https://support.google.com/",
+      "https://www.microsoft.com/",
+      "https://support.microsoft.com/",
+      "https://www.paypal.com/",
+      "https://www.amazon.com/",
+      "https://aws.amazon.com/",
+      "https://www.apple.com/",
+      "https://support.apple.com/",
+      "https://github.com/"
+    ],
+    "notes": "This registry is not exhaustive. Absence of a brand or domain from this file does not imply a URL is unsafe or unverified. Domains listed below were manually curated from publicly available official brand pages and are not re-verified at runtime."
+  },
+  "brands": [
+    {
+      "id": "google",
+      "name": "Google",
+      "official_domains": [
+        "google.com",
+        "www.google.com",
+        "accounts.google.com",
+        "support.google.com",
+        "mail.google.com",
+        "drive.google.com",
+        "play.google.com",
+        "youtube.com",
+        "gmail.com"
+      ],
+      "aliases": [
+        "Gmail",
+        "YouTube"
+      ],
+      "verification": {
+        "method": "manual",
+        "source": "Public official Google brand and help-center pages",
+        "verified_at": "2026-10-18",
+        "notes": "Core consumer services only; not exhaustive."
+      }
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "official_domains": [
+        "microsoft.com",
+        "www.microsoft.com",
+        "account.microsoft.com",
+        "support.microsoft.com",
+        "outlook.com",
+        "office.com",
+        "onedrive.com",
+        "teams.microsoft.com",
+        "live.com"
+      ],
+      "aliases": [
+        "MSFT",
+        "Office 365",
+        "Outlook",
+        "OneDrive",
+        "Teams"
+      ],
+      "verification": {
+        "method": "manual",
+        "source": "Public official Microsoft brand and support pages",
+        "verified_at": "2026-10-18",
+        "notes": "Core Microsoft services; not exhaustive."
+      }
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "official_domains": [
+        "paypal.com",
+        "www.paypal.com",
+        "paypalobjects.com"
+      ],
+      "aliases": [
+        "PayPal"
+      ],
+      "verification": {
+        "method": "manual",
+        "source": "Public official PayPal brand pages",
+        "verified_at": "2026-10-18",
+        "notes": "Primary PayPal domains; not exhaustive."
+      }
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon",
+      "official_domains": [
+        "amazon.com",
+        "www.amazon.com",
+        "aws.amazon.com",
+        "smile.amazon.com",
+        "primevideo.com",
+        "audible.com"
+      ],
+      "aliases": [
+        "Amazon.com",
+        "AWS",
+        "Prime Video",
+        "Audible"
+      ],
+      "verification": {
+        "method": "manual",
+        "source": "Public official Amazon and AWS brand pages",
+        "verified_at": "2026-10-18",
+        "notes": "Consumer and cloud services; not exhaustive."
+      }
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "official_domains": [
+        "apple.com",
+        "www.apple.com",
+        "id.apple.com",
+        "support.apple.com",
+        "icloud.com",
+        "itunes.com",
+        "appstore.com"
+      ],
+      "aliases": [
+        "iCloud",
+        "iTunes",
+        "App Store"
+      ],
+      "verification": {
+        "method": "manual",
+        "source": "Public official Apple brand and support pages",
+        "verified_at": "2026-10-18",
+        "notes": "Core Apple services; not exhaustive."
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "official_domains": [
+        "github.com",
+        "www.github.com",
+        "api.github.com"
+      ],
+      "aliases": [
+        "GitHub"
+      ],
+      "verification": {
+        "method": "manual",
+        "source": "Public official GitHub brand pages",
+        "verified_at": "2026-10-18",
+        "notes": "Primary GitHub domains; not exhaustive."
+      }
+    }
+  ]
+}

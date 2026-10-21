@@ -1,0 +1,4 @@
+variation,samples,semantics_preserving,feature_vector_unchanged_fraction,prediction_flip_rate,original_accuracy,variant_accuracy,limitation
+scheme_case,100,True,1.0,0.0,0.83,0.83,
+hostname_case,100,True,1.0,0.0,0.83,0.83,
+explicit_default_port,99,True,0.0,0.030303030303030304,0.8282828282828283,0.797979797979798,

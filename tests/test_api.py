@@ -28,17 +28,41 @@ def test_api_contract(monkeypatch, tmp_path):
             "url",
             "prediction",
             "probability",
+            "probabilities",
             "malicious_probability",
+            "risk_score",
+            "confidence",
+            "confidence_margin",
+            "entropy",
+            "uncertainty_score",
+            "uncertainty",
+            "needs_review",
+            "review_outcome",
+            "uncertainty_reasons",
+            "brand_assessment",
             "features",
             "risk",
             "explanation",
+            "stability_assessment",
             "created_at",
         }
         assert payload["prediction"] in {"LEGITIMATE", "PHISHING", "DEFACEMENT", "MALWARE"}
         assert 0.0 <= payload["probability"] <= 1.0
         assert 0.0 <= payload["malicious_probability"] <= 1.0
+        assert abs(sum(payload["probabilities"].values()) - 1.0) < 1e-6
+        assert payload["risk_score"] == payload["malicious_probability"]
         assert len(payload["features"]) == len(main.FEATURE_NAMES) == 10
         assert payload["risk"] in {"SAFE", "SUSPICIOUS", "PHISHING"}
+        assert set(payload["uncertainty"]) == {
+            "review_required",
+            "predicted_class",
+            "max_class_probability",
+            "top_two_probability_margin",
+            "reasons",
+        }
+        assert payload["uncertainty"]["predicted_class"] == payload["prediction"]
+        assert isinstance(payload["uncertainty"]["review_required"], bool)
+        assert isinstance(payload["uncertainty"]["reasons"], list)
         assert isinstance(payload["explanation"], list)
         assert payload["explanation"]
         assert all(set(item) == {"feature", "value", "shap_value", "impact"} for item in payload["explanation"])
@@ -49,7 +73,17 @@ def test_api_contract(monkeypatch, tmp_path):
         assert set(history_payload) == {"scans", "total"}
         assert history_payload["total"] == 1
         assert history_payload["scans"][0]["features"] == payload["features"]
+        assert history_payload["scans"][0]["probabilities"] == payload["probabilities"]
         assert history_payload["scans"][0]["malicious_probability"] == payload["malicious_probability"]
+        assert history_payload["scans"][0]["uncertainty"] == payload["uncertainty"]
+        filtered_history = client.get(
+            f"/api/history?prediction={payload['prediction']}&search=example.com&limit=1"
+        )
+        assert filtered_history.status_code == 200
+        assert filtered_history.json()["total"] == 1
+        assert len(filtered_history.json()["scans"]) == 1
+        invalid_filter = client.get("/api/history?prediction=UNKNOWN")
+        assert invalid_filter.status_code == 400
 
         single_response = client.get(f"/api/history/{payload['scan_id']}")
         assert single_response.status_code == 200
@@ -69,6 +103,16 @@ def test_api_contract(monkeypatch, tmp_path):
                 "malware_scans",
             )
         ) == 1
+        assert stats_payload["model_info"]["feature_count"] == 10
+        assert stats_payload["recent_trend"]
+
+        config_response = client.get("/api/config")
+        assert config_response.status_code == 200
+        assert config_response.json()["url_fetching_enabled"] is False
+        assert len(config_response.json()["feature_names"]) == 10
+        assert len(client.get("/api/brands").json()["brands"]) > 0
+        assert client.get("/api/evaluation").json()["evaluation_type"] == "offline_robustness"
+        assert client.get("/api/robustness").json()["evaluation_type"] == "experimental_offline_domain_generalization"
 
         delete_response = client.delete(f"/api/history/{payload['scan_id']}")
         assert delete_response.status_code == 200

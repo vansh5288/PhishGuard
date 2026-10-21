@@ -18,6 +18,51 @@ export interface UrlFeatures {
   query_length: number;
 }
 
+export interface UncertaintyAssessment {
+  review_required: boolean;
+  predicted_class: string;
+  max_class_probability: number;
+  top_two_probability_margin: number;
+  reasons: string[];
+}
+
+export interface BrandAssessment {
+  status: string;
+  hostname?: string | null;
+  matched_brand?: string | null;
+  matched_domain?: string | null;
+  reasons: string[];
+}
+
+export interface StabilityCheck {
+  check_id: string;
+  name: string;
+  description: string;
+  transformed_url: string;
+  predicted_class: string;
+  probability: number;
+  consistent: boolean;
+}
+
+export interface StabilitySkippedCheck {
+  check_id: string;
+  name: string;
+  reason: string;
+}
+
+export interface StabilityAssessment {
+  status: 'stable' | 'unstable' | 'unavailable';
+  original_prediction: string;
+  prediction_stability: number | null;
+  transformations_tested: number;
+  consistent_predictions: number;
+  checks: StabilityCheck[];
+  skipped_checks: StabilitySkippedCheck[];
+  explanation: string;
+  limitations: string;
+  summary: string;
+}
+
 export interface AnalysisResponse {
   url: string;
   prediction: Prediction | string;
@@ -29,6 +74,9 @@ export interface AnalysisResponse {
   id?: string;
   timestamp?: string;
   features?: UrlFeatures;
+  uncertainty?: UncertaintyAssessment;
+  brand_assessment?: BrandAssessment;
+  stability_assessment?: StabilityAssessment;
 }
 
 export interface StatsResponse {

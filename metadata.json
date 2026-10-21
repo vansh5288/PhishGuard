@@ -1,0 +1,7 @@
+{
+  "name": "PhishGuard — Machine Learning-Based Phishing Detection & Risk Analysis",
+  "description": "PhishGuard — Machine Learning-Based Phishing Detection and Risk Analysis System with 10-Feature Inspection, 4-Class Logistic Regression Classifier, SHAP Explainability, and Supporting Security Verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

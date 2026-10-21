@@ -78,7 +78,6 @@ def is_safe_url(raw_url: str, max_length: int = 2048) -> bool:
                 except ValueError:
                     continue
         except (socket.gaierror, socket.timeout, OSError):
-            pass
+            return False
 
         return True
-

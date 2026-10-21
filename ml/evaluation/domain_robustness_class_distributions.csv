@@ -1,0 +1,17 @@
+experiment,split,class,count
+Stratified random,train,Legitimate,339184
+Stratified random,train,Phishing,72001
+Stratified random,train,Defacement,76228
+Stratified random,train,Malware,18916
+Stratified random,test,Legitimate,84796
+Stratified random,test,Phishing,18001
+Stratified random,test,Defacement,19057
+Stratified random,test,Malware,4729
+Hostname-disjoint,train,Legitimate,339184
+Hostname-disjoint,train,Phishing,72002
+Hostname-disjoint,train,Defacement,76228
+Hostname-disjoint,train,Malware,18916
+Hostname-disjoint,test,Legitimate,84796
+Hostname-disjoint,test,Phishing,18000
+Hostname-disjoint,test,Defacement,19057
+Hostname-disjoint,test,Malware,4729

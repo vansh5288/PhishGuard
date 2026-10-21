@@ -1,0 +1,214 @@
+{
+  "evaluation_type": "offline_robustness",
+  "random_state": 42,
+  "test_size": 0.2,
+  "dataset_path": "ml\\data\\processed\\feature_dataset.csv",
+  "dataset_sha256": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+  "model_path": "models\\final_model.pkl",
+  "n_features": 10,
+  "feature_names": [
+    "url_length",
+    "hostname_length",
+    "path_length",
+    "dot_count",
+    "hyphen_count",
+    "digit_count",
+    "special_character_count",
+    "subdirectory_count",
+    "has_https",
+    "query_length"
+  ],
+  "n_classes": 4,
+  "class_labels": {
+    "0": "LEGITIMATE",
+    "1": "PHISHING",
+    "2": "DEFACEMENT",
+    "3": "MALWARE"
+  },
+  "class_names": {
+    "0": "Legitimate",
+    "1": "Phishing",
+    "2": "Defacement",
+    "3": "Malware",
+    "4": "Suspicious"
+  },
+  "training_metadata": {
+    "dataset_path": "ml/data/raw/malicious_phish.csv",
+    "dataset_sha256": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+    "feature_names": [
+      "url_length",
+      "hostname_length",
+      "path_length",
+      "dot_count",
+      "hyphen_count",
+      "digit_count",
+      "special_character_count",
+      "subdirectory_count",
+      "has_https",
+      "query_length"
+    ],
+    "class_labels": {
+      "0": "LEGITIMATE",
+      "1": "PHISHING",
+      "2": "DEFACEMENT",
+      "3": "MALWARE"
+    },
+    "train_rows": 506329,
+    "test_rows": 126583,
+    "random_state": 42,
+    "test_size": 0.2
+  },
+  "bundled_evaluation_metrics": {
+    "Accuracy": 0.8781194947188801,
+    "Precision": 0.8029889064359144,
+    "Recall": 0.7504298179738501,
+    "F1": 0.7645397661577535,
+    "ROC-AUC": 0.9483133517795201,
+    "PR-AUC": 0.7743848352323639,
+    "Training Time": 19.069773699971847,
+    "Prediction Time": 2.1045401037772566e-07,
+    "Training Accuracy": 0.8793946228637901,
+    "Testing Accuracy": 0.8781194947188801,
+    "Training F1": 0.7671346969973387,
+    "Testing F1": 0.7645397661577535
+  },
+  "train_metrics": {
+    "accuracy": 0.8793946228637901,
+    "precision_macro": 0.8048151107989692,
+    "recall_macro": 0.7529109886150017,
+    "f1_macro": 0.7671346969973387,
+    "per_class": {
+      "Legitimate": {
+        "precision": 0.9661105505909484,
+        "recall": 0.9485647907920185,
+        "f1": 0.9572572775093423
+      },
+      "Phishing": {
+        "precision": 0.6285285665990534,
+        "recall": 0.8262940792488993,
+        "f1": 0.7139694102257931
+      },
+      "Defacement": {
+        "precision": 0.8149700689093623,
+        "recall": 0.7090308023298525,
+        "f1": 0.7583183090489453
+      },
+      "Malware": {
+        "precision": 0.8096512570965125,
+        "recall": 0.5277542820892366,
+        "f1": 0.6389937912052742
+      }
+    },
+    "confusion_matrix": [
+      [
+        321738,
+        11035,
+        5352,
+        1059
+      ],
+      [
+        5479,
+        59494,
+        6023,
+        1005
+      ],
+      [
+        325,
+        21572,
+        54048,
+        283
+      ],
+      [
+        5482,
+        2555,
+        896,
+        9983
+      ]
+    ],
+    "confusion_matrix_labels": [
+      "Legitimate",
+      "Phishing",
+      "Defacement",
+      "Malware"
+    ]
+  },
+  "test_metrics": {
+    "accuracy": 0.8781194947188801,
+    "precision_macro": 0.8029889064359144,
+    "recall_macro": 0.7504298179738501,
+    "f1_macro": 0.7645397661577535,
+    "per_class": {
+      "Legitimate": {
+        "precision": 0.9659327312738248,
+        "recall": 0.9472852493042124,
+        "f1": 0.956518114971272
+      },
+      "Phishing": {
+        "precision": 0.6251314184784894,
+        "recall": 0.8257874562524304,
+        "f1": 0.7115844901866922
+      },
+      "Defacement": {
+        "precision": 0.8136032291101873,
+        "recall": 0.708663483234507,
+        "f1": 0.7575162665470047
+      },
+      "Malware": {
+        "precision": 0.8072882468811556,
+        "recall": 0.5199830831042503,
+        "f1": 0.632540192926045
+      }
+    },
+    "confusion_matrix": [
+      [
+        80326,
+        2829,
+        1370,
+        271
+      ],
+      [
+        1370,
+        14865,
+        1512,
+        254
+      ],
+      [
+        75,
+        5415,
+        13505,
+        62
+      ],
+      [
+        1388,
+        670,
+        212,
+        2459
+      ]
+    ],
+    "confusion_matrix_labels": [
+      "Legitimate",
+      "Phishing",
+      "Defacement",
+      "Malware"
+    ]
+  },
+  "perturbation_sensitivity": {
+    "base_accuracy": 0.8781194947188801,
+    "perturbation_scale": 0.1,
+    "n_trials": 200,
+    "prediction_flip_rate": 0.4
+  },
+  "missing_feature_sensitivity": {
+    "base_accuracy": 0.8781194947188801,
+    "missing_feature_fraction": 0.25,
+    "n_missing_features": 2,
+    "n_trials": 200,
+    "prediction_flip_rate": 0.5
+  },
+  "summary": {
+    "test_accuracy": 0.8781194947188801,
+    "test_f1_macro": 0.7645397661577535,
+    "perturbation_flip_rate": 0.4,
+    "missing_feature_flip_rate": 0.5
+  }
+}

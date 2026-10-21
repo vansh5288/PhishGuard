@@ -24,6 +24,8 @@ import { analyzeUrl, ApiConnectionError, API_BASE_URL } from '../services/api';
 import { RiskGauge } from '../components/common/RiskGauge';
 import { ThreatBadge, ThreatLevelPill } from '../components/common/ThreatBadge';
 import { ApiErrorBanner } from '../components/common/ApiErrorBanner';
+import { UncertaintyAssessment } from '../components/common/UncertaintyAssessment';
+import { BrandAssessment } from '../components/common/BrandAssessment';
 
 interface AnalyzePageProps {
   initialUrl?: string;
@@ -321,6 +323,9 @@ ${result.reasons.map((r, i) => `${i + 1}. ${r}`).join('\n')}
 
           {/* Diagnostic Sections */}
           <div className="p-6 space-y-6">
+            <BrandAssessment assessment={result.brand_assessment} />
+            <UncertaintyAssessment assessment={result.uncertainty} />
+
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="p-3 bg-[#0B0F19] rounded-lg border border-[#1F2937]">

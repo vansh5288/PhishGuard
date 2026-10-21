@@ -3,6 +3,8 @@ import { X, Shield, Copy, Check, ExternalLink, Calendar, Info, Globe, AlertCircl
 import { ScanHistoryItem } from '../../types';
 import { RiskGauge } from '../common/RiskGauge';
 import { ThreatBadge } from '../common/ThreatBadge';
+import { UncertaintyAssessment } from '../common/UncertaintyAssessment';
+import { BrandAssessment } from '../common/BrandAssessment';
 
 interface DetailModalProps {
   scan: ScanHistoryItem | null;
@@ -113,6 +115,16 @@ export const DetailModal: React.FC<DetailModalProps> = ({ scan, onClose, onReSca
               />
             </div>
           </div>
+
+          <UncertaintyAssessment
+            assessment={scan.uncertainty}
+            unavailableMessage="This older history record does not contain a complete uncertainty assessment."
+          />
+
+          <BrandAssessment
+            assessment={scan.brand_assessment}
+            unavailableMessage="This older history record does not contain a brand assessment."
+          />
 
           {/* Explanations / Reasons */}
           <div>

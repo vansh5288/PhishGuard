@@ -1,0 +1,194 @@
+{
+  "evaluation_type": "experimental_multiclass_probability_calibration",
+  "status": "experimental",
+  "dataset": {
+    "source_path": "ml/data/raw/malicious_phish.csv",
+    "source_sha256": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+    "source_rows": 651191,
+    "source_columns": [
+      "url",
+      "type"
+    ],
+    "source_column_types": {
+      "url": "str",
+      "type": "str"
+    },
+    "url_column": "url",
+    "label_column": "type",
+    "source_label_mapping": {
+      "benign": 0,
+      "defacement": 2,
+      "malware": 3,
+      "phishing": 1
+    },
+    "missing_url_rows_excluded": 0,
+    "missing_label_rows_excluded": 0,
+    "invalid_url_rows_excluded": 321,
+    "conflicting_url_rows_excluded": 7897,
+    "conflicting_urls_excluded": 3946,
+    "duplicate_url_rows_excluded": 10061,
+    "normalized_missing_scheme_rows": 463194,
+    "dataset_rows": 632912,
+    "unique_hostnames": 194914
+  },
+  "random_seed": 42,
+  "class_labels": {
+    "0": "Legitimate",
+    "1": "Phishing",
+    "2": "Defacement",
+    "3": "Malware"
+  },
+  "feature_names": [
+    "url_length",
+    "hostname_length",
+    "path_length",
+    "dot_count",
+    "hyphen_count",
+    "digit_count",
+    "special_character_count",
+    "subdirectory_count",
+    "has_https",
+    "query_length"
+  ],
+  "feature_count": 10,
+  "model_settings": {
+    "class": "sklearn.linear_model.LogisticRegression",
+    "max_iter": 2000,
+    "class_weight": {
+      "0": 1.0,
+      "1": 1.5,
+      "2": 1.5,
+      "3": 2.0
+    },
+    "random_state": 42,
+    "scaler": "sklearn.preprocessing.StandardScaler, fit on training data only"
+  },
+  "calibration_method": "One-vs-rest sigmoid (Platt) regression on base-model probability logits; calibrated class probabilities are normalized to sum to one.",
+  "calibrator_settings": {
+    "class": "sklearn.linear_model.LogisticRegression",
+    "solver": "lbfgs",
+    "C": 1.0,
+    "max_iter": 1000,
+    "fit_data": "calibration partition only",
+    "multiclass_combination": "independent one-vs-rest sigmoid scores renormalized to sum to one"
+  },
+  "reliability_bins": {
+    "count": 15,
+    "strategy": "fixed-width bins over [0, 1]"
+  },
+  "split": {
+    "method": "Nested StratifiedGroupKFold; outer first fold reserves final test domains, inner first fold reserves calibration domains from development.",
+    "random_seed": 42,
+    "outer": {
+      "method": "StratifiedGroupKFold; first deterministic fold",
+      "folds": 5,
+      "requested_test_fraction": 0.2,
+      "actual_test_fraction": 0.19999936800060672,
+      "train_hostname_count": 155899,
+      "test_hostname_count": 39015,
+      "hostname_overlap_count": 0,
+      "groups_per_class": {
+        "Legitimate": 132494,
+        "Phishing": 53872,
+        "Defacement": 2122,
+        "Malware": 7364
+      },
+      "random_seed": 42
+    },
+    "inner": {
+      "method": "StratifiedGroupKFold; first deterministic fold",
+      "folds": 5,
+      "requested_test_fraction": 0.2,
+      "actual_test_fraction": 0.2,
+      "train_hostname_count": 124652,
+      "test_hostname_count": 31247,
+      "hostname_overlap_count": 0,
+      "groups_per_class": {
+        "Legitimate": 105990,
+        "Phishing": 43087,
+        "Defacement": 1698,
+        "Malware": 5868
+      },
+      "random_seed": 43
+    },
+    "hostname_overlap_counts": {
+      "train_vs_calibration": 0,
+      "train_vs_test": 0,
+      "calibration_vs_test": 0
+    },
+    "partitions": {
+      "train": {
+        "rows": 405064,
+        "hostname_count": 124652,
+        "class_distribution": {
+          "Legitimate": 271348,
+          "Phishing": 57601,
+          "Defacement": 60982,
+          "Malware": 15133
+        },
+        "missing_classes": []
+      },
+      "calibration": {
+        "rows": 101266,
+        "hostname_count": 31247,
+        "class_distribution": {
+          "Legitimate": 67836,
+          "Phishing": 14401,
+          "Defacement": 15246,
+          "Malware": 3783
+        },
+        "missing_classes": []
+      },
+      "test": {
+        "rows": 126582,
+        "hostname_count": 39015,
+        "class_distribution": {
+          "Legitimate": 84796,
+          "Phishing": 18000,
+          "Defacement": 19057,
+          "Malware": 4729
+        },
+        "missing_classes": []
+      }
+    }
+  },
+  "hostname_disjoint_assertions_passed": true,
+  "metrics": {
+    "uncalibrated": {
+      "multiclass_log_loss": 0.7566514135921579,
+      "multiclass_brier_score": 0.39690188671818244,
+      "top_label_calibration_error": 0.10445136935232552,
+      "classwise_calibration_error": 0.0591153996646608,
+      "macro_f1": 0.5911087376925213
+    },
+    "sigmoid_calibrated": {
+      "multiclass_log_loss": 0.7408807323843083,
+      "multiclass_brier_score": 0.3899778964610504,
+      "top_label_calibration_error": 0.0701799052834738,
+      "classwise_calibration_error": 0.04823977601173433,
+      "macro_f1": 0.5380900923522882
+    }
+  },
+  "recommendation": {
+    "criterion": "All of log loss, Brier score, and top-label ECE must improve on the untouched test set, while macro F1 declines by no more than 0.01.",
+    "probability_metrics_improved": true,
+    "macro_f1_change_calibrated_minus_uncalibrated": -0.05301864534023304,
+    "evidence_supports_controlled_trial": false,
+    "conclusion": "The held-out evidence does not support integrating this calibration method into production at this time."
+  },
+  "limitations": [
+    "This is one deterministic split experiment, not cross-validation or a statistical confidence interval.",
+    "Hostname-level grouping is only a proxy for unseen-domain generalization; dataset time drift and label quality are not addressed.",
+    "The sigmoid calibrator is one-vs-rest and renormalizes class scores; it is not guaranteed to improve probability quality or preserve argmax predictions.",
+    "Expected calibration errors depend on the fixed binning scheme and test-set composition.",
+    "The ten lexical features contain no rich domain or page content; calibration cannot fix representation limits.",
+    "Production model and prediction behavior are untouched."
+  ],
+  "artifacts": {
+    "json": "ml/evaluation/probability_calibration/probability_calibration_report.json",
+    "markdown": "ml/evaluation/probability_calibration/probability_calibration_report.md",
+    "metrics_csv": "ml/evaluation/probability_calibration/probability_calibration_metrics.csv",
+    "reliability_csv": "ml/evaluation/probability_calibration/reliability_diagram_data.csv",
+    "reliability_plot": "ml/evaluation/probability_calibration/reliability_diagrams.png"
+  }
+}

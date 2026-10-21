@@ -1,4 +1,4 @@
-import { AnalysisRequest, AnalysisResponse, Prediction, ScanHistoryItem, StatsResponse, UrlFeatures } from '../types';
+import { AnalysisRequest, AnalysisResponse, BrandAssessment, Prediction, ScanHistoryItem, StatsResponse, UncertaintyAssessment, UrlFeatures } from '../types';
 
 export const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/+$/, '');
 
@@ -86,6 +86,91 @@ function normalizeFeatures(value: unknown): UrlFeatures | undefined {
   };
 }
 
+function finiteNumber(value: unknown): number | undefined {
+  if (
+    value === null ||
+    value === undefined ||
+    (typeof value !== 'number' && typeof value !== 'string') ||
+    (typeof value === 'string' && value.trim() === '')
+  ) {
+    return undefined;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function normalizeUncertainty(record: Record<string, any>): UncertaintyAssessment | undefined {
+  const uncertainty =
+    typeof record.uncertainty === 'object' && record.uncertainty !== null
+      ? record.uncertainty as Record<string, unknown>
+      : {};
+  const reviewRequired = uncertainty.review_required ?? uncertainty.needs_review ?? record.needs_review;
+  const predictedClass = uncertainty.predicted_class ?? uncertainty.prediction ?? record.prediction ?? record.result;
+  const maxProbability = finiteNumber(
+    uncertainty.max_class_probability ?? uncertainty.confidence ?? record.confidence ?? record.probability,
+  );
+  const probabilityMargin = finiteNumber(
+    uncertainty.top_two_probability_margin ?? uncertainty.confidence_margin ?? record.confidence_margin,
+  );
+
+  if (
+    typeof reviewRequired !== 'boolean' &&
+    reviewRequired !== 0 &&
+    reviewRequired !== 1
+  ) {
+    return undefined;
+  }
+  if (
+    typeof predictedClass !== 'string' ||
+    !predictedClass ||
+    maxProbability === undefined ||
+    maxProbability < 0 ||
+    maxProbability > 1 ||
+    probabilityMargin === undefined ||
+    probabilityMargin < 0 ||
+    probabilityMargin > 1
+  ) {
+    return undefined;
+  }
+
+  const rawReasons =
+    uncertainty.reasons ??
+    uncertainty.reason ??
+    record.uncertainty_reasons;
+  const reasons = Array.isArray(rawReasons)
+    ? rawReasons.filter((reason): reason is string => typeof reason === 'string' && reason.trim().length > 0)
+    : typeof rawReasons === 'string' && rawReasons.trim()
+      ? [rawReasons]
+      : [];
+
+  return {
+    review_required: reviewRequired === true || reviewRequired === 1,
+    predicted_class: predictedClass.toLowerCase(),
+    max_class_probability: maxProbability,
+    top_two_probability_margin: probabilityMargin,
+    reasons,
+  };
+}
+
+function normalizeBrandAssessment(record: Record<string, any>): BrandAssessment | undefined {
+  const source = record.brand_assessment;
+  if (typeof source !== 'object' || source === null || typeof source.status !== 'string') {
+    return undefined;
+  }
+  const reasons = Array.isArray(source.reasons)
+    ? source.reasons.filter((reason: unknown): reason is string => typeof reason === 'string')
+    : [];
+
+  return {
+    status: source.status,
+    hostname: typeof source.hostname === 'string' ? source.hostname : null,
+    matched_brand: typeof source.matched_brand === 'string' ? source.matched_brand : null,
+    matched_domain: typeof source.matched_domain === 'string' ? source.matched_domain : null,
+    reasons,
+  };
+}
+
 function normalizeScanRecord(record: Record<string, any>): ScanHistoryItem {
   const probability = Number(record.probability ?? record.confidence ?? 0);
   const url = String(record.url || '');
@@ -112,6 +197,9 @@ function normalizeScanRecord(record: Record<string, any>): ScanHistoryItem {
     reasons: normalizeExplanation(record.explanation),
     timestamp: String(record.created_at || record.timestamp || new Date().toISOString()),
     features,
+    uncertainty: normalizeUncertainty(record),
+    brand_assessment: normalizeBrandAssessment(record),
+    stability_assessment: record.stability_assessment,
   };
 }
 

@@ -1,0 +1,33 @@
+experiment,actual,predicted,count
+Stratified random,Legitimate,Legitimate,79173
+Stratified random,Legitimate,Phishing,2034
+Stratified random,Legitimate,Defacement,3280
+Stratified random,Legitimate,Malware,309
+Stratified random,Phishing,Legitimate,14261
+Stratified random,Phishing,Phishing,2605
+Stratified random,Phishing,Defacement,539
+Stratified random,Phishing,Malware,596
+Stratified random,Defacement,Legitimate,10475
+Stratified random,Defacement,Phishing,835
+Stratified random,Defacement,Defacement,7745
+Stratified random,Defacement,Malware,2
+Stratified random,Malware,Legitimate,913
+Stratified random,Malware,Phishing,221
+Stratified random,Malware,Defacement,52
+Stratified random,Malware,Malware,3543
+Hostname-disjoint,Legitimate,Legitimate,79657
+Hostname-disjoint,Legitimate,Phishing,1864
+Hostname-disjoint,Legitimate,Defacement,2974
+Hostname-disjoint,Legitimate,Malware,301
+Hostname-disjoint,Phishing,Legitimate,13835
+Hostname-disjoint,Phishing,Phishing,2933
+Hostname-disjoint,Phishing,Defacement,590
+Hostname-disjoint,Phishing,Malware,642
+Hostname-disjoint,Defacement,Legitimate,10158
+Hostname-disjoint,Defacement,Phishing,865
+Hostname-disjoint,Defacement,Defacement,8032
+Hostname-disjoint,Defacement,Malware,2
+Hostname-disjoint,Malware,Legitimate,964
+Hostname-disjoint,Malware,Phishing,121
+Hostname-disjoint,Malware,Defacement,81
+Hostname-disjoint,Malware,Malware,3563

@@ -1,0 +1,88 @@
+{
+  "total_samples": 1000,
+  "overall_accuracy_pct": 53.4,
+  "overall_mean_stability": 94.84,
+  "overall_median_stability": 100.0,
+  "overall_stable_count": 866,
+  "overall_unstable_count": 134,
+  "overall_unavailable_count": 0,
+  "overall_stable_rate_pct": 86.6,
+  "accuracy_vs_stability_matrix": {
+    "correct_and_stable": 515,
+    "correct_but_unstable": 19,
+    "incorrect_and_stable": 351,
+    "incorrect_and_unstable": 115
+  },
+  "class_results": {
+    "LEGITIMATE": {
+      "total_samples": 250,
+      "stable_count": 231,
+      "unstable_count": 19,
+      "unavailable_count": 0,
+      "mean_prediction_stability": 96.67,
+      "stable_rate_pct": 92.4,
+      "accuracy_pct": 5.6
+    },
+    "PHISHING": {
+      "total_samples": 250,
+      "stable_count": 226,
+      "unstable_count": 24,
+      "unavailable_count": 0,
+      "mean_prediction_stability": 96.14,
+      "stable_rate_pct": 90.4,
+      "accuracy_pct": 82.8
+    },
+    "DEFACEMENT": {
+      "total_samples": 250,
+      "stable_count": 244,
+      "unstable_count": 6,
+      "unavailable_count": 0,
+      "mean_prediction_stability": 98.53,
+      "stable_rate_pct": 97.6,
+      "accuracy_pct": 72.0
+    },
+    "MALWARE": {
+      "total_samples": 250,
+      "stable_count": 165,
+      "unstable_count": 85,
+      "unavailable_count": 0,
+      "mean_prediction_stability": 88.01,
+      "stable_rate_pct": 66.0,
+      "accuracy_pct": 53.2
+    }
+  },
+  "transformations": {
+    "case_normalization": {
+      "tested": 870,
+      "consistent": 870,
+      "flipped": 0,
+      "flip_rate_pct": 0.0
+    },
+    "default_port_addition": {
+      "tested": 941,
+      "consistent": 808,
+      "flipped": 133,
+      "flip_rate_pct": 14.13
+    },
+    "dot_segment_equivalence": {
+      "tested": 907,
+      "consistent": 887,
+      "flipped": 20,
+      "flip_rate_pct": 2.21
+    },
+    "empty_path_normalization": {
+      "tested": 89,
+      "consistent": 89,
+      "flipped": 0,
+      "flip_rate_pct": 0.0
+    },
+    "default_port_removal": {
+      "tested": 1,
+      "consistent": 0,
+      "flipped": 1,
+      "flip_rate_pct": 100.0
+    }
+  },
+  "explanation": "Prediction Stability measures whether the model returns the same class for equivalent URL representations. A stable prediction can still be incorrect.",
+  "limitations": "Evaluates standards-compliant lexical representation changes only (RFC 3986); does not evaluate server-side URL rewriting, symlinks, or network redirects."
+}
